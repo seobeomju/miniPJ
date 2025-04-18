@@ -7,6 +7,7 @@ import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
@@ -18,9 +19,9 @@ public class BaseEntity {
 
     @CreatedDate
     @Column(name ="regdate", updatable = false)
-    protected LocalDateTime regdate;
+    protected LocalDateTime regDate;
 
-    @CreatedDate
+    @LastModifiedDate
     @Column(name ="moddate")
     protected LocalDateTime modDate;
 }
