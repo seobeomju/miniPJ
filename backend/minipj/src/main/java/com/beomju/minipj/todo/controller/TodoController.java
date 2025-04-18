@@ -26,8 +26,8 @@ public class TodoController {
     private final TodoService todoService;
     private final RestClient.Builder builder;
 
-    @PostMapping("add")
-    public ResponseEntity<ActionResultDTO<Long>> add(TodoDTO dto){
+    @PostMapping("")
+    public ResponseEntity<ActionResultDTO<Long>> add(@ModelAttribute TodoDTO dto){
         log.info("----------POST-----------------");
         log.info(dto);
 
