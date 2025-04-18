@@ -1,10 +1,12 @@
 import {useQuery} from "@tanstack/react-query";
-import {Navigate, useSearchParams} from "react-router";
+import {Navigate, useNavigate, useSearchParams} from "react-router";
 import {TodoList} from "~/api/todoAPI";
+import PaginationComponent from "~/components/common/PaginationComponent";
 
 function TodoListComponent () {
 
     const [searchParams] = useSearchParams();
+    const navigate = useNavigate();
 
     const pageStr = searchParams.get("page") || "1";
     const sizeStr = searchParams.get("size") || "10";
@@ -23,6 +25,10 @@ function TodoListComponent () {
     if(error){
         return <Navigate to="/member/login" replace />;
     }
+    const movePage = (page: number) => {
+        navigate(`/todo/list?page=${page}&size=${sizeStr}`);
+
+    };
 
     return (
         <div className="max-w-4xl mx-auto mt-10">
@@ -45,8 +51,19 @@ function TodoListComponent () {
                     </li>
                 ))}
             </ul>
+
+            {data && data.dtoList.length > 0 && (
+                <PaginationComponent
+                    page={data.page}
+                    size={data.size}
+                    start={data.start}
+                    end={data.end}
+                    prev={data.prev}
+                    next={data.next}
+                    movePage={movePage}
+                />
+            )}
         </div>
     );
 }
-
 export default TodoListComponent;
