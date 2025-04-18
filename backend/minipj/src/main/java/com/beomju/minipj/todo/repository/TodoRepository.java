@@ -22,4 +22,6 @@ public interface TodoRepository extends JpaRepository<Todo, Long> {
     @Query("select new com.beomju.minipj.todo.dto.TodoDTO(t.tno, t.title, t.writer, t.regDate, t.modDate) from Todo t")
     Page<TodoDTO> getList(Pageable pageable);
 
+    @Query("select t from Todo t where t.tno = :tno")
+    Todo selectOne(@Param("tno") Long tno);
 }

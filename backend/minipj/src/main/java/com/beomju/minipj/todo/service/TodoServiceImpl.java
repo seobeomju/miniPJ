@@ -18,10 +18,11 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Log4j2
+@Transactional
 public class TodoServiceImpl implements TodoService{
 
     private final TodoRepository repository;
-
+    private final TodoRepository todoRepository;
 
 
     @Override
@@ -60,7 +61,16 @@ public class TodoServiceImpl implements TodoService{
                 .build();
     }
 
+    @Override
+    public void modify(TodoDTO dto) {
+        log.info("modify: ", dto);
 
+
+        Todo todo = todoRepository.selectOne(dto.getTno());
+
+        todo.changeTitle(dto.getTitle());
+
+    }
 
 
 }

@@ -7,10 +7,12 @@ import com.beomju.minipj.todo.dto.TodoDTO;
 import com.beomju.minipj.todo.service.TodoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.apache.coyote.Response;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestClient;
 
 import java.awt.print.Pageable;
 
@@ -22,6 +24,7 @@ import java.awt.print.Pageable;
 public class TodoController {
 
     private final TodoService todoService;
+    private final RestClient.Builder builder;
 
     @PostMapping("add")
     public ResponseEntity<ActionResultDTO<Long>> add(TodoDTO dto){
@@ -54,7 +57,21 @@ public class TodoController {
     @GetMapping("/list")
     public ResponseEntity<PageResponseDTO<TodoDTO>> list(PageRequestDTO pageRequestDTO){
         log.info("list: ", pageRequestDTO);
+
         PageResponseDTO<TodoDTO> responseDTO = todoService.list(pageRequestDTO);
+
         return ResponseEntity.ok(responseDTO);
     }
+
+    @PostMapping("/modify")
+    public ResponseEntity<ActionResultDTO<Long>> modify(TodoDTO todoDTO){
+
+        todoService.modify(todoDTO);
+
+        return ResponseEntity.ok(ActionResultDTO.<Long>builder()
+                        .result("success")
+                        .data(todoDTO.getTno())
+                        .build());
+    }
+
 }

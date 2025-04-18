@@ -14,4 +14,5 @@ public interface TodoService {
 
     PageResponseDTO<TodoDTO>  list(PageRequestDTO requestDTO);
 
+    void modify(TodoDTO dto);
 }
