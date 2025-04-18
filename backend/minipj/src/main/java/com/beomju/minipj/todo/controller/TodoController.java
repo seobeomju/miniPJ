@@ -74,4 +74,15 @@ public class TodoController {
                         .build());
     }
 
+    @DeleteMapping("/{tno}")
+    public ResponseEntity<ActionResultDTO<Long>> delete(@PathVariable("tno") Long tno){
+        todoService.delete(tno);
+
+        return ResponseEntity.ok(
+                ActionResultDTO.<Long>builder()
+                        .result("success")
+                        .data(tno)
+                        .build()
+        );
+    }
 }

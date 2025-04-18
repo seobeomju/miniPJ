@@ -22,7 +22,6 @@ import java.util.List;
 public class TodoServiceImpl implements TodoService{
 
     private final TodoRepository repository;
-    private final TodoRepository todoRepository;
 
 
     @Override
@@ -66,10 +65,15 @@ public class TodoServiceImpl implements TodoService{
         log.info("modify: ", dto);
 
 
-        Todo todo = todoRepository.selectOne(dto.getTno());
+        Todo todo = repository.selectOne(dto.getTno());
 
         todo.changeTitle(dto.getTitle());
 
+    }
+
+    @Override
+    public void delete(Long tno) {
+        repository.deleteById(tno);
     }
 
 
