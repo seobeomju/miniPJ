@@ -5,11 +5,10 @@ import com.beomju.minipj.todo.dto.TodoDTO;
 import com.beomju.minipj.todo.service.TodoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/v1/todos")
@@ -35,4 +34,16 @@ public class TodoController {
         );
     }
 
+    @GetMapping("read/{tno}")
+    public ResponseEntity<ActionResultDTO<TodoDTO>> read(@PathVariable("tno") Long tno) {
+        log.info("----------GET---------------");
+        log.info("read: ", tno);
+
+        TodoDTO dto = todoService.getOne(tno);
+
+        return ResponseEntity.ok(ActionResultDTO.<TodoDTO>builder()
+                .result("success")
+                .data(dto)
+                .build());
+    }
 }

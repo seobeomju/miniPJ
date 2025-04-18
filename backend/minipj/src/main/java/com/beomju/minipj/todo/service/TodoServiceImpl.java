@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 public class TodoServiceImpl implements TodoService{
 
     private final TodoRepository repository;
+    private final TodoRepository todoRepository;
 
     @Override
     public Long add(TodoDTO dto) {
@@ -30,8 +31,9 @@ public class TodoServiceImpl implements TodoService{
     public TodoDTO getOne(Long tno) {
 
 
-        return null;
+        return todoRepository.selectDTO(tno);
     }
+
 
 
 }
