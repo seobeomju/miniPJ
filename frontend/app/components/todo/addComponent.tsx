@@ -1,7 +1,7 @@
 import React, {type FormEvent, useRef} from "react";
 
 import {useMutation, useQueryClient} from "@tanstack/react-query";
-import {addTodoFrom} from "~/api/todoAPI";
+import {addTodoForm} from "~/api/todoAPI";
 import ResultComponent from "~/components/common/resultComponent";
 import LoadingComponent from "~/components/common/loadingComponent";
 import {useNavigate} from "react-router";
@@ -10,8 +10,6 @@ import {useNavigate} from "react-router";
 
 function TodoAddComponent() {
 
-
-
     const formRef = useRef<HTMLFormElement | null>(null);
 
     const query = useQueryClient();
@@ -19,7 +17,7 @@ function TodoAddComponent() {
     const navigate = useNavigate();
 
     const addMutation = useMutation({
-        mutationFn: addTodoFrom,
+        mutationFn: addTodoForm,
         onSuccess: (data) => {
             query.invalidateQueries({queryKey: ['todos'] })
         }

@@ -1,4 +1,4 @@
-import {useNavigate, useParams} from "react-router";
+import {Link, useNavigate, useParams} from "react-router";
 import {useQuery} from "@tanstack/react-query";
 import {getTodo} from "~/api/todoAPI";
 
@@ -46,23 +46,29 @@ function TodoReadComponent(){
 
             {/* 수정/삭제/목록 버튼 */}
             <div className="flex gap-3">
-                <button
-                    className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-                    onClick={() => navigate(`/todo/edit/${tno}`)}
-                >
+                <button>
+                    <Link
+                        to={`/todo/modify/${tno}`}
+                        className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                    >
                     수정
+                    </Link>
                 </button>
-                <button
-                    className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
-                    onClick={() => navigate(`/todo/delete/${tno}`)}
+                <button>
+                    <Link
+                        to={`/todo/delete/${tno}`}
+                        className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
                 >
                     삭제
+                    </Link>
                 </button>
-                <button
+                <button>
+                    <Link
+                        to={`/todo/list`}
                     className="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400"
-                    onClick={() => navigate(`/todo/list`)}
                 >
                     목록
+                    </Link>
                 </button>
             </div>
         </div>
