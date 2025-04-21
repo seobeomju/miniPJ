@@ -16,3 +16,8 @@ export async function TodoList(page:string, size:string){
 
     return res.data
 }
+
+export async function getTodo(tno:number): Promise<Todo>{
+    const res = await axios.get(`${host}/read/${tno}`);
+    return res.data.data;
+}

@@ -10,3 +10,9 @@ interface TodoAdd{
     title: string,
     writer: string,
 }
+
+interface TodoReadProps {
+    todo: Todo;
+    onDelete: () => void;
+    onModify: () => void;
+}

@@ -1,5 +1,5 @@
 import {useQuery} from "@tanstack/react-query";
-import {Navigate, useNavigate, useSearchParams} from "react-router";
+import {Link, Navigate, useNavigate, useSearchParams} from "react-router";
 import {TodoList} from "~/api/todoAPI";
 import PaginationComponent from "~/components/common/PaginationComponent";
 
@@ -40,14 +40,20 @@ function TodoListComponent () {
                 <div className="text-gray-500 text-lg">등록된 할 일이 없습니다.</div>
             )}
 
-            <ul className="space-y-4">
+            <ul className="space-y-4" >
                 {data && data.dtoList.map((todo:Todo) => (
-                    <li key={todo.tno} className="p-5 bg-white rounded-lg shadow flex flex-col gap-2 border hover:border-blue-400 transition">
-                        <div className="text-xl font-semibold text-gray-800">{todo.title}</div>
-                        <div className="text-sm text-gray-500">작성자: {todo.writer}</div>
-                        <div className="text-sm text-gray-400">
-                            작성일: {new Date(todo.regDate).toLocaleString()}
-                        </div>
+                    <li key={todo.tno}>
+                        <Link
+                            to={`/todo/read/${todo.tno}`}
+                            className="p-5 bg-white rounded-lg shadow flex flex-col gap-2 border hover:border-blue-400 transition"
+                            >
+                            <div className="text-xl font-semibold text-gray-800">{todo.title}</div>
+                            <div className="text-sm text-gray-500">작성자: {todo.writer}</div>
+                            <div className="text-sm text-gray-400">
+                                작성일: {new Date(todo.regDate).toLocaleString()}
+                            </div>
+                        </Link>
+
                     </li>
                 ))}
             </ul>
