@@ -24,3 +24,7 @@ export interface PageResponseDTO<T> {
     prev: boolean;
     next: boolean;
 }
+interface DeleteModalProps {
+    onConfirm: () => void;
+    onCancel: () => void;
+}

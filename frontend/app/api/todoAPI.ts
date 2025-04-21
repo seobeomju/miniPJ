@@ -27,3 +27,9 @@ export async function modifyTodoForm(formData: FormData): Promise<ActionResult<n
 
     return res.data;
 }
+
+export async function  deleteTodo(tno:number): Promise<ActionResult<number>>{
+
+    const res = await axios.delete(`${host}/${tno}`);
+    return res.data
+}
