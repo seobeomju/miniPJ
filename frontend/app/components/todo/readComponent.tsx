@@ -1,8 +1,9 @@
 import {Link, useNavigate, useParams} from "react-router";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {deleteTodo, getTodo} from "~/api/todoAPI";
-import {useState} from "react";
+import React, {useState} from "react";
 import DeleteModal from "~/components/common/DeleteModal";
+import LoadingComponent from "~/components/common/loadingComponent";
 
 
 function TodoReadComponent() {
@@ -13,25 +14,6 @@ function TodoReadComponent() {
     const queryClient = useQueryClient();
 
     const [showModal, setShowModal] = useState(false);
-
-    //useQuery훅을 사용해 서버에서 Todo 데이터를 비동기로 조화
-    const query = useQuery({
-        queryKey: ['todo', tno], // 고유 키 (tno가 바귀면 새로 요청)
-        queryFn: () => getTodo(Number(tno)), //실제로 데이터 들고오기
-        enabled: !!tno, // tno가 있을 때만 쿼리를 실행
-        retry: false //실패 시 자동 재시도 x
-    });
-    const {isLoading, data: todo, error} = query;
-
-    if (isLoading) {
-        return <div className="text-xl text-blue-500">불러오는 중...</div>;
-    }
-
-    if (error || !todo) {
-        return <div className="text-xl text-red-500">할 일 정보를 불러오지 못했습니다.</div>;
-    }
-    ;
-
     const deleteMutaion = useMutation({
         mutationFn: deleteTodo,
         onSuccess: () => {
@@ -42,6 +24,24 @@ function TodoReadComponent() {
             alert("삭제 실패")
         }
     })
+
+
+    //useQuery훅을 사용해 서버에서 Todo 데이터를 비동기로 조화
+    const query = useQuery({
+        queryKey: ['todo', tno], // 고유 키 (tno가 바귀면 새로 요청)
+        queryFn: () => getTodo(Number(tno)), //실제로 데이터 들고오기
+        enabled: !!tno, // tno가 있을 때만 쿼리를 실행
+        retry: false //실패 시 자동 재시도 x
+    });
+    const {isLoading, data: todo, error} = query;
+
+    if (isLoading) return <LoadingComponent isLoading={true} />;
+
+    if (error || !todo) {
+        return <div className="text-xl text-red-500">할 일 정보를 불러오지 못했습니다.</div>;
+    };
+
+
 
 
     console.log(todo)
