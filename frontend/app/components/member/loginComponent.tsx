@@ -2,6 +2,7 @@ import React, {type ChangeEvent, type FormEvent, useState} from "react";
 import {getToken} from "~/api/memberAPI";
 import {setCookie} from "~/util/cookieUtil";
 import {useNavigate} from "react-router";
+import {getKakaoLoginLink} from "~/api/kakaoAPI";
 
 
 const LoginComponent = () => {
@@ -25,7 +26,12 @@ const LoginComponent = () => {
 
             navigate("/todo/list")
         })
+            .catch((err)=>{
+                console.error("로그인 실패",err)
+                alert("아이디 또는 비밀번호가 틀렸습니다.")
+            })
     };
+    const kakaoLink = getKakaoLoginLink()
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100">
@@ -63,6 +69,22 @@ const LoginComponent = () => {
                         로그인
                     </button>
                 </form>
+                <div className="mt-6 space-y-2 text-center">
+                    <button
+                        onClick={() => navigate("/member/join")}
+                        className="text-sm text-blue-600 hover:underline"
+                    >
+                        아직 회원이 아니신가요? 회원가입
+                    </button>
+                    <div>
+                        <a
+                            href={kakaoLink}
+                            className="text-sm text-yellow-600 hover:underline font-semibold"
+                        >
+                            🟡 카카오 로그인
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     );

@@ -55,21 +55,18 @@ const responseFail = async (err: AxiosError) => {
 async function refreshTokens(originalConfig: AxiosRequestConfig | undefined) {
     const accessToken = getCookie("access_token");
     const refreshToken = getCookie("refresh_token");
-
     const header = {
         headers: {
             'Authorization': `Bearer ${accessToken}`,
             'Content-Type': 'application/x-www-form-urlencoded'
         }
     }
-
     // 토큰 갱신 요청
     const res = await axios.post(
         'http://localhost:8080/api/v1/member/refresh',
         { refreshToken },
         header
     )
-
     const newAccessToken = res.data[0]
     const newRefreshToken = res.data[1]
 

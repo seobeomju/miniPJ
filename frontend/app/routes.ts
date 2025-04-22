@@ -10,4 +10,5 @@ export default [
     ]),
     route('/member/login','routes/member/loginPage.tsx'),
     route('/member/kakao', 'routes/member/kakaoRedirect.tsx'),
+    route('/member/join', 'routes/member/joinPage.tsx'),
 ] satisfies RouteConfig;
