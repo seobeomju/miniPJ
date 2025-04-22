@@ -7,7 +7,6 @@ spring:
       max-file-size: 5MB
       max-request-size: 50MB
 
-
   datasource:
     url: jdbc:mariadb://localhost:3306/minipj
     driver-class-name: org.mariadb.jdbc.Driver
@@ -32,14 +31,12 @@ spring:
     init:
       mode: never
 
-
-
 #?? ??
 logging:
   level:
-    org.zerock: INFO
+    com.beomju: INFO
     org.springframework.security: TRACE
 
-org:
-  zerock:
+com:
+  beomju:
     upload: upload

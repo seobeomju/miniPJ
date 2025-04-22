@@ -1,5 +1,6 @@
-package com.beomju.minipj.config;
+package com.beomju.minipj.security.config;
 
+import com.beomju.minipj.security.filter.JWTCheckFilter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.annotation.Bean;
@@ -23,7 +24,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CustomSecurityConfig {
 
-
+    private final JWTCheckFilter jwtCheckFilter;
 
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
@@ -59,7 +60,7 @@ public class CustomSecurityConfig {
         });
 
 
-        //http.addFilterBefore(jwtCheckFilter, UsernamePasswordAuthenticationFilter.class );
+        http.addFilterBefore(jwtCheckFilter, UsernamePasswordAuthenticationFilter.class );
 
 
 
