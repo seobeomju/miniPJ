@@ -3,10 +3,12 @@ package com.beomju.minipj.member.dto;
 import com.beomju.minipj.member.entities.Member;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Data
@@ -26,8 +28,10 @@ public class MemberDTO implements UserDetails {
         this.email = member.getEmail();
         this.del = member.isDel();
         this.social = member.isSocial();
-        this.roleNames = member.getRoleSet().stream().map(role -> role.name()).collect(Collectors.toList());
-
+        this.roleNames = member.getRoleSet()
+                .stream()
+                .map(role -> role.name())
+                .collect(Collectors.toList());
     }
 
     //소셜 로그인시에 사용
@@ -39,18 +43,27 @@ public class MemberDTO implements UserDetails {
         this.roleNames = List.of("USER");
     }
 
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+
+        return roleNames.stream().map(name ->
+                new SimpleGrantedAuthority("ROLE_"+name))
+                .collect(Collectors.toList());
     }
 
     @Override
     public String getPassword() {
-        return "";
+
+        return this.mpw;
     }
 
     @Override
     public String getUsername() {
-        return "";
+
+        System.out.println("--------------getUsername");
+
+        return this.mid;
     }
+
 }

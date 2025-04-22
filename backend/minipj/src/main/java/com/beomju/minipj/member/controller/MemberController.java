@@ -1,5 +1,8 @@
 package com.beomju.minipj.member.controller;
 
+import com.beomju.minipj.member.dto.MemberDTO;
+import com.beomju.minipj.member.dto.MemberJoinDTO;
+import com.beomju.minipj.member.service.MemberService;
 import com.beomju.minipj.util.JWTException;
 import com.beomju.minipj.util.JWTUtil;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +19,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class MemberController {
 
-//    private final MemberService memberService;
+   private final MemberService memberService;
 
     private final JWTUtil jwtUtil;
 
@@ -36,20 +39,20 @@ public class MemberController {
         return ResponseEntity.ok(result);
     }
 
-    //
-//    @GetMapping("/api/v1/member/kakao")
-//    public ResponseEntity<String[]> getKakao( @RequestParam("accessToken") String accessToken) {
-//
-//        log.info("getKakao: " + accessToken);
-//
-//        String kakaoEmail = memberService.getKakaoEmail(accessToken);
-//
-//        log.info("kakaoEmail: " + kakaoEmail);
-//
-//        String[] result = new String[]{"access.........", "refresh............."};
-//
-//        return ResponseEntity.ok(result);
-//    }
+
+    @GetMapping("/api/v1/member/kakao")
+    public ResponseEntity<String[]> getKakao( @RequestParam("accessToken") String accessToken) {
+
+        log.info("getKakao: " + accessToken);
+
+        String kakaoEmail = memberService.getKakaoEmail(accessToken);
+
+        log.info("kakaoEmail: " + kakaoEmail);
+
+        String[] result = new String[]{"access.........", "refresh............."};
+
+        return ResponseEntity.ok(result);
+    }
 
     @RequestMapping("/api/v1/member/refresh")
     public ResponseEntity<String[]> refresh (
@@ -76,4 +79,12 @@ public class MemberController {
     }
 
 
+    @PostMapping("/api/v1/member/join")
+    public ResponseEntity<String> join (@RequestBody MemberJoinDTO joinDTO ) {
+
+        log.info("join: " + joinDTO);
+        memberService.join(joinDTO);
+
+        return  ResponseEntity.ok("success");
+    }
 }
