@@ -8,4 +8,6 @@ export default [
         route("read/:tno",'routes/todo/readPage.tsx'),
         route("modify/:tno","routes/todo/modifyPage.tsx"),
     ]),
+    route('/member/login','routes/member/loginPage.tsx'),
+    route('/member/kakao', 'routes/member/kakaoRedirect.tsx'),
 ] satisfies RouteConfig;
