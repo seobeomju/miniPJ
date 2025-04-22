@@ -2,6 +2,8 @@ package com.beomju.minipj.member.controller;
 
 import com.beomju.minipj.member.dto.MemberDTO;
 import com.beomju.minipj.member.dto.MemberJoinDTO;
+import com.beomju.minipj.member.entities.Member;
+import com.beomju.minipj.member.repoitory.MemberRepository;
 import com.beomju.minipj.member.service.MemberService;
 import com.beomju.minipj.util.JWTException;
 import com.beomju.minipj.util.JWTUtil;
@@ -9,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -22,6 +25,8 @@ public class MemberController {
    private final MemberService memberService;
 
     private final JWTUtil jwtUtil;
+    private final PasswordEncoder passwordEncoder;
+    private final MemberRepository memberRepository;
 
     @PostMapping("/api/v1/member/login")
     public ResponseEntity<String[]> login (@RequestParam("uid") String uid,@RequestParam("upw") String upw) {
@@ -29,7 +34,12 @@ public class MemberController {
         log.info("login----------------------------");
         log.info(uid + " " + upw);
 
-        //사용자 정보를 조회 생략
+        Member member = memberRepository.selectOne(uid);
+
+        if(member == null || passwordEncoder.matches(upw, member.getMpw())==false) {
+            //잘못된 로그인 정보
+            throw new JWTException("Invalid password");
+        }
 
         String accessToken = jwtUtil.createToken(Map.of("uid",uid), 5);
         String refreshToken = jwtUtil.createToken(Map.of("uid",uid), 10); //60*24*7
