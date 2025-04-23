@@ -20,6 +20,7 @@ function TodoAddComponent() {
         mutationFn: addTodoForm,
         onSuccess: (data) => {
             query.invalidateQueries({queryKey: ['todos'] })
+            navigate("/todo/list")
         }
     })
 
@@ -34,6 +35,7 @@ function TodoAddComponent() {
         }else {
             const formData = new FormData(form);
             addMutation.mutate(formData);
+
         }
 
     };

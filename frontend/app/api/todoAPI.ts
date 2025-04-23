@@ -5,7 +5,7 @@ import jwtAxios from "~/util/jwtUtil";
 const host = "http://localhost:8080/api/v1/todos"
 
 export async function addTodoForm(formData: FormData): Promise<ActionResult<number>>{
-    const res = await axios.post(`${host}`, formData);
+    const res = await jwtAxios.post(`${host}`, formData);
     console.log(res)
 
     return res.data

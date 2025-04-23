@@ -9,7 +9,6 @@ function LoginPage() {
 
     return (
         <div>
-            <div className={'text-4xl'}>Login Page</div>
 
             <LoginComponent/>
 

@@ -35,7 +35,7 @@ const LoginComponent = () => {
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100">
-            <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md">
+            <div className="bg-gray-500/20 border-2 p-8 rounded-2xl shadow-lg w-full max-w-md">
                 <h2 className="text-2xl font-bold mb-6 text-center">로그인</h2>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
