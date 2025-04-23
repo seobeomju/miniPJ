@@ -55,11 +55,17 @@ public class MemberController {
 
         log.info("getKakao: " + accessToken);
 
+        //카카오 이메일 받아오기
         String kakaoEmail = memberService.getKakaoEmail(accessToken);
-
         log.info("kakaoEmail: " + kakaoEmail);
 
-        String[] result = new String[]{"access.........", "refresh............."};
+
+        Member member = memberService.registerSocialMemberIfNotExists(kakaoEmail);
+
+        String accessJWT = jwtUtil.createToken(Map.of("uid",kakaoEmail), 5);
+        String refreshJWT = jwtUtil.createToken(Map.of("uid",kakaoEmail), 10);
+
+        String[] result = new String[]{accessJWT, refreshJWT};
 
         return ResponseEntity.ok(result);
     }

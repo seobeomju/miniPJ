@@ -46,7 +46,7 @@ export const getMemberWithAccessToken = async (accessToken:string) => {
 
     console.log(res.data)
 
-    return res.data
+    return res.data //[accessToken, refreshToken]
 }
 
 

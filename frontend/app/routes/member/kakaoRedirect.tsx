@@ -1,10 +1,12 @@
 import React, {useEffect} from 'react';
-import {useSearchParams} from "react-router";
+import {useNavigate, useSearchParams} from "react-router";
 import {getAccessToken, getMemberWithAccessToken} from "~/api/kakaoAPI";
+import {setCookie} from "~/util/cookieUtil";
 
 function KakaoRedirect() {
 
     const [searchParams] = useSearchParams()
+    const navigate = useNavigate();
 
     //code=xsdfsefsef
     const authCode = searchParams.get('code')
@@ -17,11 +19,15 @@ function KakaoRedirect() {
                 console.log("accessToken" ,accessToken)
 
                 getMemberWithAccessToken(accessToken).then(loginResult => {
+                    const accessToken = loginResult[0]
+                    const refreshToken = loginResult[1]
 
+                    setCookie("access_token",accessToken,1)
+                    setCookie("refresh_token",refreshToken,7)
+
+                    navigate("/todo/list")
                     console.log(loginResult)
-
                 })
-
             })
         }
 
@@ -29,7 +35,8 @@ function KakaoRedirect() {
 
 
     if(!authCode) {
-        return (<div>로그인 실패</div>)
+        alert (<div>로그인 실패</div>)
+        navigate("/member/login")
     }
 
     return (

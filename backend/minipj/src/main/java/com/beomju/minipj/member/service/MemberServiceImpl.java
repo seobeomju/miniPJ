@@ -19,6 +19,7 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Transactional
@@ -89,5 +90,26 @@ public class MemberServiceImpl implements MemberService {
         member.addRole(MemberRole.USER);
 
         memberRepository.save(member);
+    }
+
+    @Override
+    public Member registerSocialMemberIfNotExists(String email) {
+        Member member = memberRepository.findById(email).orElse(null);
+
+
+        if (member == null) {
+            member = Member.builder()
+                    .mid(email)
+                    .mpw("Social")
+                    .email(email)
+                    .social(true)
+                    .del(false)
+                    .build();
+            member.addRole(MemberRole.USER);
+
+            memberRepository.save(member);
+        }
+
+        return member;
     }
 }
