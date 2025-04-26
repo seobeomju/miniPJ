@@ -15,13 +15,16 @@ public interface TodoRepository extends JpaRepository<Todo, Long> {
     Page<TodoDTO> listOfTitle(@Param("title") String title, Pageable pageable);
 
     //엔티티 없이 DTO 직접 반환
-    @Query("select new com.beomju.minipj.todo.dto.TodoDTO(t.tno, t.title, t.writer, t.regDate, t.modDate) from Todo t where t.tno = :tno")
+    @Query("select new com.beomju.minipj.todo.dto.TodoDTO(t.tno, t.title, t.member.mid, t.regDate, t.modDate) from Todo t where t.tno = :tno")
     TodoDTO selectDTO( @Param("tno") Long tno  );
 
     //모든 페이지 DTO 변환
-    @Query("select new com.beomju.minipj.todo.dto.TodoDTO(t.tno, t.title, t.writer, t.regDate, t.modDate) from Todo t")
-    Page<TodoDTO> getList(Pageable pageable);
+//    @Query("select new com.beomju.minipj.todo.dto.TodoDTO(t.tno, t.title, t.writer, t.regDate, t.modDate) from Todo t")
+//    Page<TodoDTO> getList(Pageable pageable);
 
     @Query("select t from Todo t where t.tno = :tno")
     Todo selectOne(@Param("tno") Long tno);
+
+    @Query("SELECT t FROM Todo t WHERE t.member.mid = :mid")
+    Page<Todo> findByMemberMid(@Param("mid") String mid, Pageable pageable);
 }

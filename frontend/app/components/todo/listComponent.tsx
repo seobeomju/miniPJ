@@ -2,6 +2,7 @@ import {useQuery} from "@tanstack/react-query";
 import {Link, Navigate, useNavigate, useSearchParams} from "react-router";
 import {TodoList} from "~/api/todoAPI";
 import PaginationComponent from "~/components/common/PaginationComponent";
+import type {Todo} from "~/types/todo";
 
 function TodoListComponent () {
 
@@ -48,7 +49,7 @@ function TodoListComponent () {
                             className="p-5 bg-white rounded-lg shadow flex flex-col gap-2 border hover:border-blue-400 transition"
                             >
                             <div className="text-xl font-semibold text-gray-800">{todo.title}</div>
-                            <div className="text-sm text-gray-500">작성자: {todo.writer}</div>
+                            <div className="text-sm text-gray-500">작성자: {todo.member?.mid}</div>
                             <div className="text-sm text-gray-400">
                                 작성일: {new Date(todo.regDate).toLocaleString()}
                             </div>

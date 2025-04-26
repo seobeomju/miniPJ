@@ -32,43 +32,44 @@ public class MemberServiceImpl implements MemberService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public String getKakaoEmail(String accessToken) {
-
-        String kakaoGetUserURL = "https://kapi.kakao.com/v2/user/me";
-
-        if(accessToken == null){
-            throw new RuntimeException("Access Token is null");
-        }
-        RestTemplate restTemplate = new RestTemplate();
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", "Bearer " + accessToken);
-        headers.add("Content-Type","application/x-www-form-urlencoded");
-
-        HttpEntity<String> entity = new HttpEntity<>(headers);
-
-        UriComponents uriBuilder = UriComponentsBuilder.fromHttpUrl(kakaoGetUserURL).build();
-
-        ResponseEntity<LinkedHashMap> response =
-                restTemplate.exchange(
-                        uriBuilder.toString(),
-                        HttpMethod.GET,
-                        entity,
-                        LinkedHashMap.class);
-
-        log.info(response);
-
-        LinkedHashMap<String, LinkedHashMap> bodyMap = response.getBody();
-
-        log.info("------------------------------------");
-        log.info(bodyMap);
-
-        LinkedHashMap<String, String> kakaoAccount = bodyMap.get("kakao_account");
-
-        log.info("kakaoAccount: " + kakaoAccount);
-
-        return kakaoAccount.get("email");
-    }
+   public String getKakaoEmail(String accessToken) {
+//
+//        String kakaoGetUserURL = "https://kapi.kakao.com/v2/user/me";
+//
+//        if(accessToken == null){
+//            throw new RuntimeException("Access Token is null");
+//        }
+//        RestTemplate restTemplate = new RestTemplate();
+//
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.add("Authorization", "Bearer " + accessToken);
+//        headers.add("Content-Type","application/x-www-form-urlencoded");
+//
+//        HttpEntity<String> entity = new HttpEntity<>(headers);
+//
+//        UriComponents uriBuilder = UriComponentsBuilder.fromHttpUrl(kakaoGetUserURL).build();
+//
+//        ResponseEntity<LinkedHashMap> response =
+//                restTemplate.exchange(
+//                        uriBuilder.toString(),
+//                        HttpMethod.GET,
+//                        entity,
+//                        LinkedHashMap.class);
+//
+//        log.info(response);
+//
+//        LinkedHashMap<String, LinkedHashMap> bodyMap = response.getBody();
+//
+//        log.info("------------------------------------");
+//        log.info(bodyMap);
+//
+//        LinkedHashMap<String, String> kakaoAccount = bodyMap.get("kakao_account");
+//
+//        log.info("kakaoAccount: " + kakaoAccount);
+//
+  //       return kakaoAccount.get("email");
+        return "alt100@naver.com";
+       }
 
     @Transactional
     @Override

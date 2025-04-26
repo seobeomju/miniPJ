@@ -1,4 +1,4 @@
-import React, {type FormEvent, useRef} from "react";
+import React, {type FormEvent, useEffect, useRef, useState} from "react";
 
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {addTodoForm} from "~/api/todoAPI";
@@ -15,6 +15,15 @@ function TodoAddComponent() {
     const query = useQueryClient();
 
     const navigate = useNavigate();
+    const [memberMid, setMemberMid] = useState("");
+
+    useEffect(() => {
+        const mid = localStorage.getItem("login_mid") || "";
+        setMemberMid(mid);
+
+        const writerInput = document.querySelector<HTMLInputElement>('input[name="writer"]');
+        if (writerInput) writerInput.value = mid;
+    }, []);
 
     const addMutation = useMutation({
         mutationFn: addTodoForm,
@@ -34,9 +43,13 @@ function TodoAddComponent() {
             return;
         }else {
             const formData = new FormData(form);
+            for (const pair of formData.entries()) {
+                console.log(pair[0], pair[1]); // 🔍 확인 필수!
+            }
             addMutation.mutate(formData);
 
         }
+
 
     };
 
@@ -67,9 +80,9 @@ function TodoAddComponent() {
                         name="writer"
                         id="writer"
                         type="text"
-                        className="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring focus:border-blue-500"
-                        placeholder="작성자 이름"
-                        required={true}
+                        className="w-full px-3 py-2 border rounded-lg bg-gray-100 text-gray-500"
+                        value={'user1'}
+                        readOnly
                     />
                 </div>
 

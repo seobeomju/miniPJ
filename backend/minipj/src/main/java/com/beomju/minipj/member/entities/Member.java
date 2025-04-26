@@ -1,15 +1,13 @@
 package com.beomju.minipj.member.entities;
 
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Table (name = "tbl_member")
 @Getter
 @Builder
 @AllArgsConstructor

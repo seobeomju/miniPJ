@@ -7,14 +7,19 @@ import com.beomju.minipj.todo.entities.Todo;
 
 
 public interface TodoService {
-    Long add(TodoDTO dto);
+    Long add(TodoDTO dto, String mid);
 
 
     TodoDTO getOne(Long tno);
 
-    PageResponseDTO<TodoDTO>  list(PageRequestDTO requestDTO);
+
+    //회원처리 하기전
+    // PageResponseDTO<TodoDTO>  list(PageRequestDTO requestDTO);
 
     void modify(TodoDTO dto);
 
     void delete(Long tno);
+
+    PageResponseDTO<TodoDTO> list(PageRequestDTO requestDTO, String mid);
+
 }

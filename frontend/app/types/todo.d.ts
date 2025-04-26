@@ -1,9 +1,18 @@
+
+export interface  Member{
+    mid: string,
+    email: string
+}
+
+
+
+
 interface Todo{
     tno: number,
     title: string,
-    writer: string,
     regDate? : Data | null,
     modDate? : Data | null,
+    member?:Member;
 }
 
 interface TodoAdd{

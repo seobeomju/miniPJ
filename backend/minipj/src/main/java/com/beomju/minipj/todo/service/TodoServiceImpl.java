@@ -2,6 +2,7 @@ package com.beomju.minipj.todo.service;
 
 import com.beomju.minipj.common.dto.PageRequestDTO;
 import com.beomju.minipj.common.dto.PageResponseDTO;
+import com.beomju.minipj.member.entities.Member;
 import com.beomju.minipj.todo.dto.TodoDTO;
 import com.beomju.minipj.todo.entities.Todo;
 import com.beomju.minipj.todo.repository.TodoRepository;
@@ -26,11 +27,19 @@ public class TodoServiceImpl implements TodoService{
 
 
     @Override
-    public Long add(TodoDTO dto) {
+    public Long add(TodoDTO dto, String mid) {
+
+
+        log.info("----------ADD---------------");
+
         Todo todo = Todo.builder()
                 .title(dto.getTitle())
-                .writer(dto.getWriter())
+                .member(Member.builder()
+                        .mid(mid)
+                        .build())
                 .build();
+        log.info(todo);
+        log.info("----------ADD---------------");
         repository.save(todo);
 
         log.info("Todo: ", todo );
@@ -49,8 +58,7 @@ public class TodoServiceImpl implements TodoService{
 
         Pageable pageable = PageRequest.of(
                 requestDTO.getPage()-1,
-                requestDTO.getSize(),
-                Sort.by(Sort.Direction.DESC, "tno")
+                requestDTO.getSize()
         );
 
         Page<TodoDTO> reuslt = repository.getList(pageable);
@@ -76,6 +84,33 @@ public class TodoServiceImpl implements TodoService{
     @Override
     public void delete(Long tno) {
         repository.deleteById(tno);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public PageResponseDTO<TodoDTO> list(PageRequestDTO requestDTO, String mid) {
+
+        Pageable pageable = PageRequest.of(
+                requestDTO.getPage() - 1,
+                requestDTO.getSize(),
+                Sort.by("tno").descending()
+        );
+
+        Page<Todo> result = repository.findByMemberMid(mid, pageable);
+
+        List<TodoDTO> dtoList = result.getContent().stream()
+                .map(todo -> TodoDTO.builder()
+                        .tno(todo.getTno())
+                        .title(todo.getTitle())
+                        .writer(todo.getMember().getMid())
+                        .build())
+                .toList();
+
+        return PageResponseDTO.<TodoDTO>withAll()
+                .pageRequestDTO(requestDTO)
+                .dtoList(dtoList)
+                .total((int) result.getTotalElements())
+                .build();
     }
 
 
